@@ -7,6 +7,8 @@
 
 public struct LeafFoundationMiddleware: Middleware {
 
+    public init() {}
+
     public func respond(to req: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
         do {
             try req.leaf.context.register(generators: req.leafFoundationVariables, toScope: "req")
