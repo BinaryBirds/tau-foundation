@@ -4,14 +4,13 @@ import PackageDescription
 let package = Package(
     name: "leaf-foundation",
     platforms: [
-       .macOS(.v10_15)
+       .macOS(.v11)
     ],
     products: [
         .library(name: "LeafFoundation", targets: ["LeafFoundation"]),
     ],
     dependencies: [
-        //.package(url: "https://github.com/vapor/leaf", from: "4.0.0"),
-        .package(url: "https://github.com/tib/leaf.git", from: "4.0.0-rc"),
+        .package(url: "https://github.com/vapor/leaf", from: "4.0.0-tau"),
     ],
     targets: [
         .target(name: "LeafFoundation", dependencies: [
