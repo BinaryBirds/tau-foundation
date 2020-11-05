@@ -11,10 +11,12 @@ public extension LeafEngine {
 
     static func useLeafFoundation() {
         entities.use(RequestParameter(), asFunction: "Request")
-        entities.use(RequestPathDropLast(), asFunction: "Request")
         entities.use(RequestQuery(), asFunction: "Request")
         entities.use(RequestSetQuery(), asFunction: "Request")
-        entities.use(RequestSortIndicator(), asFunction: "Request")
-        entities.use(RequestSortQuery(), asFunction: "Request")
+
+        entities.use(SortIndicator(), asFunction: "Sort")
+        entities.use(SortQuery(), asFunction: "Sort")
+
+        entities.use(TrimLast(), asMethod: "trimLast")
     }
 }

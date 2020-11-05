@@ -1,15 +1,18 @@
 //
-//  RequestSortIndicator.swift
+//  SortIndicator.swift
 //  LeafFoundation
 //
 //  Created by Tibor Bodecs on 2020. 10. 23..
 //
 
-public struct RequestSortIndicator: LeafUnsafeEntity, LeafNonMutatingMethod, StringReturn {
+public struct SortIndicator: LeafUnsafeEntity, LeafNonMutatingMethod, StringReturn {
     public var unsafeObjects: UnsafeObjects? = nil
     
     public static var callSignature: [LeafCallParameter] {
-        [.string, .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false))]
+        [
+            .init(label: "indicator", types: .string),
+            .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false))
+        ]
     }
     
     public func evaluate(_ params: LeafCallValues) -> LeafData {
