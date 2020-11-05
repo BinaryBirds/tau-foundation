@@ -11,8 +11,8 @@ struct TrimLast: LeafNonMutatingMethod, Invariant, StringReturn {
     static var callSignature: [LeafCallParameter] {
         [
             .string,
-            .int,
-            .init(label: "separator", types: .string, optional: true, defaultValue: "/")
+            .init(types: .int, optional: true, defaultValue: 1),
+            .init(label: "separator", types: .string, optional: true, defaultValue: "/"),
         ]
     }
 
