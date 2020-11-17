@@ -6,43 +6,42 @@
 //
 
 public struct SortQuery: LeafUnsafeEntity, StringReturn {
+
     public var unsafeObjects: UnsafeObjects? = nil
     
-    public static var callSignature: [LeafCallParameter] { [ .init(label: "query", types: [.string]) ] }
+    public static var callSignature: [LeafCallParameter] {
+        [
+            /// field key
+            .init(label: "for", types: [.string])
+        ]
+    }
     
     public func evaluate(_ params: LeafCallValues) -> LeafData {
         guard let req = req else { return .error("Needs unsafe access to Request") }
-
-        var queryItems: [String: String] = [:]
-        for item in (req.url.query ?? "").split(separator: "&") {
-            let array = item.split(separator: "=")
-            guard array.count == 2 else {
-                continue
-            }
-            let k = String(array[0])
-            let v = String(array[1])
-            queryItems[k] = v
-        }
-        
-        let oldSort = queryItems["sort"]
+        /// we split the query items and store them in a dictionary
+        var queryItems = req.queryDictionary
+        /// we check the old order and sort values
         let oldOrder = queryItems["order"]
-        queryItems["sort"] = params[0].string!
+        let oldSort = queryItems["sort"]
+        /// we update the order based on the input
+        let fieldKey = params[0].string!
+        queryItems["order"] = fieldKey
         
-        if oldSort != params[0].string {
-            if oldOrder == "desc" {
-                queryItems["order"] = "asc"
+        /// if the old order was equal with the field key we just flip the sort
+        if oldOrder == fieldKey {
+            /// if there was an ascending sorting or the order was not existing
+            if oldSort == "asc" || oldSort == nil {
+                queryItems["sort"] = "desc"
+            }
+            /// if the sort was descending we explicitly set it to asc
+            if oldSort == "desc" {
+                queryItems["sort"] = "asc"
             }
         }
+        /// otherwise this is a new order, and we can remove the sort key completely
         else {
-            if oldOrder == "desc" {
-                queryItems["order"] = "asc"
-            }
-            if oldOrder == nil || oldOrder == "asc" {
-                queryItems["order"] = "desc"
-            }
+            queryItems.removeValue(forKey: "sort")
         }
-        
-        let queryString = queryItems.map { $0 + "=" + $1 }.joined(separator: "&")
-        return .string("\(req.url.path)?\(queryString)")
+        return .string("\(req.url.path)?\(queryItems.queryString)")
     }
 }

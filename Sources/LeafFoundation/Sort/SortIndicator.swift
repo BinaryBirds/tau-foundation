@@ -10,24 +10,28 @@ public struct SortIndicator: LeafUnsafeEntity, LeafNonMutatingMethod, StringRetu
     
     public static var callSignature: [LeafCallParameter] {
         [
-            .init(label: "indicator", types: .string),
+            /// field key
+            .init(label: "for", types: .string),
+            /// if this is the default order we always return the indicator
             .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false))
         ]
     }
     
     public func evaluate(_ params: LeafCallValues) -> LeafData {
         guard let req = req else { return .error("Needs unsafe access to Request") }
-        let key = params[0].string!
-        let isDefaultSort = params[1].bool!
+        
+        let isSortedAscending = (req.query["sort"] ?? "asc") == "asc"
+        let arrow = isSortedAscending ? "▴" : "▾"
 
-        let isAscendingOrder = (req.query["order"] ?? "asc") == "asc"
-        let sort: String? = req.query["sort"]
-        let arrow = isAscendingOrder ? "▴" : "▾"
+        let fieldKey = params[0].string!
+        let isDefaultOrder = params[1].bool!
+        let order: String? = req.query["order"]
 
-        if (sort == nil && isDefaultSort) || key == sort {
-            return .string("\(arrow)")
+        /// if this is the default order and the current order query is nil we return the arrow, alternatively we return the indicator if the order equals the field key
+        if (isDefaultOrder && order == nil) || order == fieldKey {
+            return .string(arrow)
         }
-        return .string("")
+        return .string(nil)
 
     }
 }

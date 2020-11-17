@@ -14,8 +14,8 @@ public extension LeafEngine {
         entities.use(RequestQuery(), asFunction: "Request")
         entities.use(RequestSetQuery(), asFunction: "Request")
 
-        entities.use(SortIndicator(), asFunction: "Sort")
-        entities.use(SortQuery(), asFunction: "Sort")
+        entities.use(SortIndicator(), asFunction: "SortIndicator")
+        entities.use(SortQuery(), asFunction: "SortQuery")
 
         entities.use(TrimLast(), asMethod: "trimLast")
     }
