@@ -12,7 +12,8 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
     public static var callSignature: [LeafCallParameter] {
         [
             /// field key
-            .init(label: "for", types: [.string])
+            .init(label: "for", types: [.string]),
+            .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false)),
         ]
     }
     
@@ -27,8 +28,13 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
         let fieldKey = params[0].string!
         queryItems["order"] = fieldKey
         
+        let isDefaultOrder = params[1].bool!
+        /// if there was no old order and this is the default order that means we have to use desc
+        if oldOrder == nil && isDefaultOrder {
+            queryItems["sort"] = "desc"
+        }
         /// if the old order was equal with the field key we just flip the sort
-        if oldOrder == fieldKey {
+        else if oldOrder == fieldKey {
             /// if there was an ascending sorting or the order was not existing
             if oldSort == "asc" || oldSort == nil {
                 queryItems["sort"] = "desc"
@@ -38,7 +44,7 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
                 queryItems["sort"] = "asc"
             }
         }
-        /// otherwise this is a new order, and we can remove the sort key completely
+        /// otherwise this is a completely new order we can remove the sort key completely
         else {
             queryItems.removeValue(forKey: "sort")
         }

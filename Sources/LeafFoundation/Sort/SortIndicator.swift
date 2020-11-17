@@ -13,7 +13,7 @@ public struct SortIndicator: LeafUnsafeEntity, LeafNonMutatingMethod, StringRetu
             /// field key
             .init(label: "for", types: .string),
             /// if this is the default order we always return the indicator
-            .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false))
+            .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false)),
         ]
     }
     
