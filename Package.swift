@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "leaf-foundation",
     platforms: [
-       .macOS(.v11)
+       .macOS(.v10_15)
     ],
     products: [
         .library(name: "LeafFoundation", targets: ["LeafFoundation"]),
