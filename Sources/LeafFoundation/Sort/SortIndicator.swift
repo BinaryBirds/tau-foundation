@@ -14,13 +14,15 @@ public struct SortIndicator: LeafUnsafeEntity, LeafNonMutatingMethod, StringRetu
             .init(label: "for", types: .string),
             /// if this is the default order we always return the indicator
             .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false)),
+            /// default sort value
+            .init(label: "sort", types: .string, optional: true, defaultValue: .string("asc")),
         ]
     }
     
     public func evaluate(_ params: LeafCallValues) -> LeafData {
         guard let req = req else { return .error("Needs unsafe access to Request") }
-        
-        let isSortedAscending = (req.query["sort"] ?? "asc") == "asc"
+
+        let isSortedAscending = (req.query["sort"] ?? params[2].string!) == "asc"
         let arrow = isSortedAscending ? "▴" : "▾"
 
         let fieldKey = params[0].string!
