@@ -42,7 +42,7 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
         let isDefaultOrder = params[1].bool!
         /// if there was no old order and this is the default order that means we have to use the default sort
         if oldOrder == nil && isDefaultOrder {
-            queryItems["sort"] = params[2].string!
+            queryItems["sort"] = params[2].string!.toggleSort
         }
         /// if the old order was equal with the field key we just flip the sort
         else if oldOrder == fieldKey {
