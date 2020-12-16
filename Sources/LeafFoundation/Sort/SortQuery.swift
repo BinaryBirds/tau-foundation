@@ -14,6 +14,7 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
             /// field key
             .init(label: "for", types: [.string]),
             .init(label: "default", types: .bool, optional: true, defaultValue: .bool(false)),
+            .init(label: "sort", types: .string, optional: true, defaultValue: .string("asc")),
         ]
     }
     
@@ -23,7 +24,7 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
         var queryItems = req.queryDictionary
         /// we check the old order and sort values
         let oldOrder = queryItems["order"]
-        let oldSort = queryItems["sort"]
+        let oldSort = queryItems["sort"] ?? params[2].string!
         /// we update the order based on the input
         let fieldKey = params[0].string!
         queryItems["order"] = fieldKey
@@ -36,7 +37,7 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
         /// if the old order was equal with the field key we just flip the sort
         else if oldOrder == fieldKey {
             /// if there was an ascending sorting or the order was not existing
-            if oldSort == "asc" || oldSort == nil {
+            if oldSort == "asc" {
                 queryItems["sort"] = "desc"
             }
             /// if the sort was descending we explicitly set it to asc
