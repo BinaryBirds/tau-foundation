@@ -5,6 +5,16 @@
 //  Created by Tibor Bodecs on 2020. 10. 23..
 //
 
+fileprivate extension String {
+    
+    var toggleSort: String {
+        if self == "asc" {
+            return "desc"
+        }
+        return "asc"
+    }
+}
+
 public struct SortQuery: LeafUnsafeEntity, StringReturn {
 
     public var unsafeObjects: UnsafeObjects? = nil
@@ -24,25 +34,23 @@ public struct SortQuery: LeafUnsafeEntity, StringReturn {
         var queryItems = req.queryDictionary
         /// we check the old order and sort values
         let oldOrder = queryItems["order"]
-        let oldSort = queryItems["sort"] ?? params[2].string!
+        let oldSort = queryItems["sort"]
         /// we update the order based on the input
         let fieldKey = params[0].string!
         queryItems["order"] = fieldKey
         
         let isDefaultOrder = params[1].bool!
-        /// if there was no old order and this is the default order that means we have to use desc
+        /// if there was no old order and this is the default order that means we have to use the default sort
         if oldOrder == nil && isDefaultOrder {
-            queryItems["sort"] = "desc"
+            queryItems["sort"] = params[2].string!
         }
         /// if the old order was equal with the field key we just flip the sort
         else if oldOrder == fieldKey {
-            /// if there was an ascending sorting or the order was not existing
-            if oldSort == "asc" {
-                queryItems["sort"] = "desc"
+            if let sort = oldSort {
+                queryItems["sort"] = sort.toggleSort
             }
-            /// if the sort was descending we explicitly set it to asc
-            if oldSort == "desc" {
-                queryItems["sort"] = "asc"
+            else {
+                queryItems["sort"] = params[2].string!.toggleSort
             }
         }
         /// otherwise this is a completely new order we can remove the sort key completely
