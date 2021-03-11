@@ -1,15 +1,13 @@
 //
-//  LeafEngine+LeafFoundation.swift
-//  LeafFoundation
+//  TemplateEngine+TauFoundation.swift
+//  TauFoundation
 //
 //  Created by Tibor Bodecs on 2020. 10. 23..
 //
 
-import Leaf
+public extension TemplateEngine {
 
-public extension LeafEngine {
-
-    static func useLeafFoundation() {
+    static func useTauFoundation() {
         entities.use(RequestParameter(), asFunction: "Request")
         entities.use(RequestQuery(), asFunction: "Request")
         entities.use(RequestSetQuery(), asFunction: "Request")

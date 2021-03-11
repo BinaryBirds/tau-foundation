@@ -1,14 +1,15 @@
 //
 //  SortIndicator.swift
-//  LeafFoundation
+//  TauFoundation
 //
 //  Created by Tibor Bodecs on 2020. 10. 23..
 //
 
-public struct SortIndicator: LeafUnsafeEntity, LeafNonMutatingMethod, StringReturn {
+public struct SortIndicator: UnsafeEntity, NonMutatingMethod, StringReturn {
+
     public var unsafeObjects: UnsafeObjects? = nil
     
-    public static var callSignature: [LeafCallParameter] {
+    public static var callSignature: [CallParameter] {
         [
             /// field key
             .init(label: "for", types: .string),
@@ -19,7 +20,7 @@ public struct SortIndicator: LeafUnsafeEntity, LeafNonMutatingMethod, StringRetu
         ]
     }
     
-    public func evaluate(_ params: LeafCallValues) -> LeafData {
+    public func evaluate(_ params: CallValues) -> TemplateData {
         guard let req = req else { return .error("Needs unsafe access to Request") }
 
         let isSortedAscending = (req.query["sort"] ?? params[2].string!) == "asc"

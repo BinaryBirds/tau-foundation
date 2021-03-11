@@ -2,24 +2,24 @@
 import PackageDescription
 
 let package = Package(
-    name: "leaf-foundation",
+    name: "tau-foundation",
     platforms: [
        .macOS(.v10_15)
     ],
     products: [
-        .library(name: "LeafFoundation", targets: ["LeafFoundation"]),
+        .library(name: "TauFoundation", targets: ["TauFoundation"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/leaf", .exact("4.0.0-tau.1")),
-        .package(url: "https://github.com/vapor/leaf-kit", .exact("1.0.0-tau.1.1")),
+        .package(url: "https://github.com/binarybirds/tau", from: "1.0.0"),
+        .package(url: "https://github.com/binarybirds/tau-kit", from: "1.0.0"),
     ],
     targets: [
-        .target(name: "LeafFoundation", dependencies: [
-            .product(name: "Leaf", package: "leaf"),
-            .product(name: "LeafKit", package: "leaf-kit"),
+        .target(name: "TauFoundation", dependencies: [
+            .product(name: "Tau", package: "tau"),
+            .product(name: "TauKit", package: "tau-kit"),
         ]),
-        .testTarget(name: "LeafFoundationTests", dependencies: [
-            .target(name: "LeafFoundation"),
+        .testTarget(name: "TauFoundationTests", dependencies: [
+            .target(name: "TauFoundation"),
         ])
     ]
 )

@@ -1,16 +1,17 @@
 //
 //  RequestSetQuery.swift
-//  LeafFoundation
+//  TauFoundation
 //
 //  Created by Tibor Bodecs on 2020. 10. 23..
 //
 
-public struct RequestSetQuery: LeafUnsafeEntity, StringReturn {
+public struct RequestSetQuery: UnsafeEntity, StringReturn {
+
     public var unsafeObjects: UnsafeObjects? = nil
     
-    public static var callSignature: [LeafCallParameter] { [.init(label: "setQuery", types: [.dictionary])] }
+    public static var callSignature: [CallParameter] { [.init(label: "setQuery", types: [.dictionary])] }
     
-    public func evaluate(_ params: LeafCallValues) -> LeafData {
+    public func evaluate(_ params: CallValues) -> TemplateData {
         guard let req = req else { return .error("Needs unsafe access to Request") }
 
         var queryItems = req.queryDictionary

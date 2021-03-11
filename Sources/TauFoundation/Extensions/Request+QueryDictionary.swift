@@ -1,11 +1,9 @@
 //
 //  Request+QueryDictionary.swift
-//  LeafFoundation
+//  TauFoundation
 //
 //  Created by Tibor Bodecs on 2020. 11. 17..
 //
-
-import Vapor
 
 extension Request {
 

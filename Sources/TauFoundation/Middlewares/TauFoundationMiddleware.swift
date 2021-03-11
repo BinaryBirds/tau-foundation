@@ -1,18 +1,18 @@
 //
-//  LeafFoundationMiddleware.swift
-//  LeafFoundation
+//  TauFoundationMiddleware.swift
+//  TauFoundation
 //
 //  Created by Tibor Bodecs on 2020. 10. 23..
 //
 
-public struct LeafFoundationMiddleware: Middleware {
+public struct TauFoundationMiddleware: Middleware {
 
     public init() {}
 
     public func respond(to req: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
         do {
-            try req.leaf.context.register(generators: req.leafFoundationVariables, toScope: "req")
-            try req.leaf.context.register(generators: req.application.leafFoundationVariables, toScope: "app")
+            try req.tau.context.register(generators: req.tauFoundationVariables, toScope: "req")
+            try req.tau.context.register(generators: req.application.tauFoundationVariables, toScope: "app")
         }
         catch {
             return req.eventLoop.makeFailedFuture(error)

@@ -1,14 +1,14 @@
 //
 //  RequestPathDropLast.swift
-//  LeafFoundation
+//  TauFoundation
 //
 //  Created by Tibor Bodecs on 2020. 10. 23..
 //
 
 /// split + dropLast + joined
-struct TrimLast: LeafNonMutatingMethod, Invariant, StringReturn {
+struct TrimLast: NonMutatingMethod, Invariant, StringReturn {
 
-    static var callSignature: [LeafCallParameter] {
+    static var callSignature: [CallParameter] {
         [
             .string,
             .init(types: .int, optional: true, defaultValue: 1),
@@ -16,7 +16,7 @@ struct TrimLast: LeafNonMutatingMethod, Invariant, StringReturn {
         ]
     }
 
-    func evaluate(_ params: LeafCallValues) -> LeafData {
+    func evaluate(_ params: CallValues) -> TemplateData {
         let path = params[0].string!
         let n = max(1, params[1].int!)
         let s = params[2].string!
